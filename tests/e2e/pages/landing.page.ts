@@ -6,4 +6,7 @@ export class LandingPage {
     async goto () {
         await this.page.goto('/')
     }
+    async clickGetStarted() {
+        await this.page.getByRole('link', {name: 'Get Started'}).click()
+    }
 }
