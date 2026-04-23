@@ -39,14 +39,22 @@ test.describe('Smoke suite @smoke @critical', () => {
         const loginPage = new LoginPage(page);
         await loginPage.goto();
         await expect(page).toHaveURL(/auth\/login/);
-        await page.getByRole('textbox', { name: 'Email' }).fill();
-        await page.getByRole('textbox', { name: 'Password' }).fill();
+        await page.getByRole('textbox', { name: 'Email' }).fill(USERS.standard.email);
+        await page.getByRole('textbox', { name: 'Password' }).fill(USERS.standard.password);
         await page.getByRole('button', { name: 'Sign in' }).click();
+        await expect(page).toHaveURL(/dashboard\/student-dashboard/);
+        await expect(page.getByRole('heading', {name: 'Student Dashboard'})).toBeVisible();
 
     })
 
     test('invalid login fails @smoke @auth', async () => {
-        // TODO
+        const loginPage = new LoginPage(page);
+        await loginPage.goto();
+        await expect(page).toHaveURL(/auth\/login/);
+        await page.getByRole('textbox', { name: 'Email' }).fill(USERS.wrongPassword.email);
+        await page.getByRole('textbox', { name: 'Password' }).fill(USERS.wrongPassword.password);
+        await page.getByRole('button', { name: 'Sign in' }).click();
+        await expect(loginPage.getErrorMessage()).toBeVisible();
     });
 
     test('halls redirect behavior @smoke @hostels', async () => {
