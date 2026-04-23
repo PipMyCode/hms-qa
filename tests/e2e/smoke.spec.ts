@@ -31,17 +31,31 @@ test.describe('Smoke suite @smoke @critical', () => {
         await expect(getStartedLink).toHaveAttribute('href', '/auth/get-started')
 
     });
-    test('student clicks signup from login page @smoke @auth', async ({page}) => {
+    test('new student can sign up @auth', async ({page}) => {
         const landingPage = new LandingPage(page);
         const signupPage = new SignupPage(page);
-        await landingPage.goto();
-        await landingPage.clickGetStarted()
+        const uniqueEmail = `student-${Date.now()}@example.com`;
 
-        await await page.getByRole('link', { name: 'Sign Up' }).click();
+        await landingPage.goto();
+        await landingPage.clickGetStarted();
+
         await expect(page).toHaveURL(/auth\/get-started/);
-        await expect(page.getByRole('heading', {name: 'HostelHub'})).toBeVisible();
+
+        await signupPage.signup({
+            firstName: 'Test',
+            surname: 'User',
+            level: '100',
+            department: 'Computer Science',
+            phoneNumber: '08064679313',
+            email: uniqueEmail,
+            password: 'mypassword123'
+        })
+
+        await expect(signupPage.getSuccessMessage()).toBeVisible();
+        await expect(page).toHaveURL(/auth\/login/);
 
     })
+
     test('student login page @smoke @auth', async ({page}) => {
         const loginPage = new LoginPage(page);
         await loginPage.goto();
