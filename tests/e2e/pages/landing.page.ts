@@ -1,6 +1,6 @@
-import type { page } from '@playwright/test';
+import type { Page } from '@playwright/test';
 export class LandingPage {
-    constructor(private readonly page: page) {
+    constructor(private readonly page: Page) {
     }
 
     async goto () {
