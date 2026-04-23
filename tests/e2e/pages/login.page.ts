@@ -1,4 +1,4 @@
-import type {Page} from '@playwright/test';
+import { type Page } from '@playwright/test';
 
 export class LoginPage {
     constructor(private readonly page: Page) {
@@ -8,10 +8,10 @@ export class LoginPage {
         await this.page.goto('/auth/login');
     }
 
-    async login(_email: string, _password: string) {
-        await this.page.getByRole('textbox', {name: 'Username'}).fill(username)
+    async login(email: string, password: string) {
+        await this.page.getByRole('textbox', {name: 'Email'}).fill(email)
         await this.page.getByRole('textbox', {name: 'Password'}).fill(password)
-        await this.page.getByRole('button', {name: 'Login'}).click()
+        await this.page.getByRole('button', {name: 'Sign in'}).click()
     }
 
     getErrorMessage() {
