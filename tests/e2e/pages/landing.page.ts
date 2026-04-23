@@ -3,7 +3,7 @@ export class LandingPage {
     constructor(private readonly page: page) {
     }
 
-    async goto {
+    async goto () {
         await this.page.goto('/')
     }
 }
